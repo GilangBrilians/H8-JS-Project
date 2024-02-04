@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Home | Service.id</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <link href="css/styles.css" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- navbar -->
+        <nav class="navbar navbar-expand-lg navbar-fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand" href="">Service.id</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars ms-1"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                      <li class="nav-item"><a class="nav-link" href="Index.html">Home</a></li>
+                      <li class="nav-item"><a class="nav-link" href="ContatcUs.html">Contact Us</a></li>
+                      <li class="nav-item"><a class="nav-link" href="AboutUs.html">About Us</a></li>
+                      <li class="nav-item"><a class="nav-link" href="Portofolio.html">Portfolio</a></li>
+                      <li class="nav-item"><a class="nav-link" href="Blog.html">Blog</a></li>
+                      <li class="nav-item"><a class="nav-link" href="Todos.html">Todos</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <header class="masthead about">
+            <div class="container">
+                <div class="masthead-heading text-uppercase">To Do </div>
+            </div>
+        </header>
+
+
+        <div class="container offset-lg-4 col-lg-4 mt-4">
+            <h2 class="section-heading text-uppercase mt-4 mb-4">Input your to do</h2>
+            <form id="todo-form" class="mb-3">
+                <div class="form-group">
+                    <input type="text" id="new-task" class="form-control" placeholder="Ex. Reading" required>
+                </div>
+                <button type="button" class="btn btn-primary mt-4 w-100 mb-4" onclick="addTask()">Sumbit</button>
+            </form>
+
+            <ul id="todo-list" class="list-group"></ul>
+        </div>
+
+
+        <!-- footer -->
+        <footer class="text-center text-lg-start text-white" style="background-color: #212529">
+            <div class="p-4 pb-0">
+                <section class="">
+                <!--Grid row-->
+                    <div class="row">
+                        <!--Grid column-->
+                        <div class="col-lg-8 col-md-6 mb-4 mb-md-0">
+                            <h5 class="text-uppercase">FOOTER CONTENT</h5>
+                            <p>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                Molestiae modi cum ipsam ad, illo possimus laborum ut
+                                reiciendis obcaecati. Ducimus, quas. Corrupti, pariatur eaque?
+                                Reiciendis assumenda iusto sapiente inventore animi?
+                            </p>
+                        </div>
+                        <div class="col-lg-1 col-md-6 mb-4 mb-md-0"></div>
+                        <div class="col-lg col-md-6 mb-4 mb-md-0">
+                            <h5 class="text-uppercase">Links</h5>
+                            <ul class="list-unstyled mb-0">
+                                <li class="nav-item"><a class="nav-link pb-1" href="Index.html">Home</a></li>
+                                <li class="nav-item"><a class="nav-link pb-1" href="ContatcUs.html">Contact Us</a></li>
+                                <li class="nav-item"><a class="nav-link pb-1" href="AboutUs.html">About Us</a></li>
+                                <li class="nav-item"><a class="nav-link pb-1" href="Portofolio.html">Portfolio</a></li>
+                                <li class="nav-item"><a class="nav-link pb-1" href="Blog.html">Blog</a></li>
+                                <li class="nav-item"><a class="nav-link pb-1" href="Todos.html">Todos</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>                
+            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">© 2024 Copyright: 
+                <a class="text-white">Service.id</a>
+            </div>
+        </footer>
+        
+        <!-- Footer -->
+
+        <script>
+            // Load tasks from local storage on page load
+            window.onload = function() {
+                loadTasks();
+            };
+
+            function addTask() {
+                var newTaskInput = document.getElementById("new-task");
+                var taskText = newTaskInput.value;
+
+                if (taskText.trim() === "") {
+                    alert("Tugas tidak boleh kosong!");
+                    return;
+                }
+
+                var todoList = document.getElementById("todo-list");
+
+                var li = document.createElement("li");
+                li.className = "list-group-item align-items-center";
+
+                var checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.className = "mr-2";
+                checkbox.addEventListener("change", function() {
+                    removeTask(li);
+                });
+
+                var taskLabel = document.createElement("label");
+                taskLabel.textContent = taskText;
+
+                li.appendChild(checkbox);
+                li.appendChild(taskLabel);
+                todoList.appendChild(li);
+
+                // Save tasks to local storage
+                saveTasks();
+
+                // Reset input field
+                newTaskInput.value = "";
+            }
+
+            function removeTask(taskElement) {
+                var todoList = document.getElementById("todo-list");
+                todoList.removeChild(taskElement);
+
+                // Save tasks to local storage after removal
+                saveTasks();
+            }
+
+            function saveTasks() {
+                var todoList = document.getElementById("todo-list");
+                var tasks = [];
+
+                // Iterate through list items and add task text to the array
+                for (var i = 0; i < todoList.children.length; i++) {
+                    var taskText = todoList.children[i].getElementsByTagName("label")[0].textContent;
+                    tasks.push(taskText);
+                }
+
+                // Save tasks array to local storage
+                localStorage.setItem("todoList", JSON.stringify(tasks));
+            }
+
+            function loadTasks() {
+                var todoList = document.getElementById("todo-list");
+                var tasks = localStorage.getItem("todoList");
+
+                if (tasks) {
+                    tasks = JSON.parse(tasks);
+
+                    // Iterate through tasks and create list items
+                    for (var i = 0; i < tasks.length; i++) {
+                        var li = document.createElement("li");
+                        li.className = "list-group-item align-items-center";
+
+                        var checkbox = document.createElement("input");
+                        checkbox.type = "checkbox";
+                        checkbox.className = "mr-2";
+                        checkbox.addEventListener("change", function() {
+                            removeTask(li);
+                        });
+
+                        var taskLabel = document.createElement("label");
+                        taskLabel.textContent = tasks[i];
+
+                        li.appendChild(checkbox);
+                        li.appendChild(taskLabel);
+                        todoList.appendChild(li);
+                    }
+                }
+            }
+        </script>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    </body>
+</html>
